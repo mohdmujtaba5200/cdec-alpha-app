@@ -14,7 +14,7 @@ pipeline {
     parameters {
         string(
             name: 'S3_BUCKET',
-            defaultValue: 'cdec-alpha-cbzpb-dev-frontend', 
+            defaultValue: 'cdec-alpha-mujtaba-dev-frontend', 
             description: 'S3 bucket name for the frontend (e.g. cdec-frontend-dev-frontend)'
         )
         string(
@@ -24,31 +24,31 @@ pipeline {
         )
         string(
             name: 'VITE_AUTH_API',
-            defaultValue: 'https://api.infra-software-architect.online/api/auth',
+            defaultValue: 'https://api.mujtabaqureshi.dpdns.org',
             description: 'Auth API URL baked into the build'
         )
         string(
             name: 'VITE_COURSE_API',
-            defaultValue: 'https://api.infra-software-architect.online/api/courses',
+            defaultValue: 'https://api.mujtabaqureshi.dpdns.org',
             description: 'Course API URL baked into the build'
         )
         string(
             name: 'VITE_ENROLL_API',
-            defaultValue: 'https://api.infra-software-architect.online/api/enroll',
+            defaultValue: 'https://api.mujtabaqureshi.dpdns.org',
             description: 'Enrollment API URL baked into the build'
         )
     }
 
     environment {
         APP_DIR = 'application/frontend'
-        AWS_DEFAULT_REGION = 'eu-west-1'
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/AnupDudhe/cdec-alpha-app.git', branch: 'main'
+                git url: 'https://github.com/mohdmujtaba5200/cdec-alpha-app.git', branch: 'main'
             }
         }
 
@@ -91,7 +91,7 @@ pipeline {
             }
         }
 
-        stage('Invalidate CloudFront') {
+        /*stage('Invalidate CloudFront') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -108,7 +108,7 @@ pipeline {
                 }
             }
         }
-    }
+    }*/
 
     post {
         success {
