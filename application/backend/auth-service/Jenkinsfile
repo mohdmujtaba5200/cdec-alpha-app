@@ -14,35 +14,29 @@ pipeline {
     
     environment {
         EKS_CLUSTER = 'cdec-eks-dev'
-        EKS_REGION = 'eu-west-1'
+        EKS_REGION = 'us-east-1'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/AnupDudhe/cdec-alpha-app.git', branch: 'main'
+                git url: 'https://github.com/mohdmujtaba5200/cdec-alpha-app.git', branch: 'main'
             }
         }
 
         stage('Build Docker image') {
-            agent {
-                label 'master'
-            }
+           
             steps {
                 dir('application/backend/auth-service') {
-                    sh '''
-                        docker build -t 365642143872.dkr.ecr.eu-west-1.amazonaws.com/backend/auth-service:latest .
-                                
-                    '''
-                }
+              sh '''
+                docker build -t 162805777703.dkr.ecr.us-east-1.amazonaws.com/backend/auth-service:latest .
+            '''
             }
         }
 
         stage('Push to ECR') {
-            agent {
-                label 'master'
-            }
+            
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -51,10 +45,10 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
                     sh '''
-                        export AWS_DEFAULT_REGION=eu-west-1
-                        aws ecr get-login-password --region eu-west-1 | \
-                            docker login --username AWS --password-stdin 365642143872.dkr.ecr.eu-west-1.amazonaws.com
-                        docker push 365642143872.dkr.ecr.eu-west-1.amazonaws.com/backend/auth-service:latest
+                        export AWS_DEFAULT_REGION=us-east-1
+                        aws ecr get-login-password --region us-east-1 | \
+                        docker login --username AWS --password-stdin 162805777703.dkr.ecr.us-east-1.amazonaws.com
+                        docker push 162805777703.dkr.ecr.us-east-1.amazonaws.com/backend/auth-service:latest
                     '''
                 }
             }
